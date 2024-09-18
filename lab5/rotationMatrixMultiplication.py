@@ -1,4 +1,6 @@
 import numpy as np 
+import matplotlib.pyplot as plt
+np.set_printoptions(suppress=True)
 
 # angles in radians
 theta_1 = np.deg2rad(90)
@@ -29,3 +31,44 @@ rot_0_5 = np.matmul(np.matmul(np.matmul(np.matmul(eye,rot_z_theta_1),rot_y_theta
 
 # print the final rotation matrix
 print(rot_0_5)
+
+origin = np.zeros(3)
+x0 = np.transpose(np.array([1,0,0]))
+y0 = np.transpose(np.array([0,1,0]))
+z0 = np.transpose(np.array([0,0,1]))
+x_axis = np.matmul(rot_0_5,x0)
+y_axis = np.matmul(rot_0_5,y0)
+z_axis = np.matmul(rot_0_5,z0)
+print(x_axis)
+print(y_axis)
+print(z_axis)
+
+# Visualize the coordinate frame
+fig = plt.figure()
+
+ax = fig.add_subplot(211, projection='3d')
+ax.quiver(*origin, *x_axis, color='r', label='X-axis')
+ax.quiver(*origin, *y_axis, color='g', label='Y-axis')
+ax.quiver(*origin, *z_axis, color='b', label='Z-axis')
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1)
+ax.set_zlim(-1, 1)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.legend()
+
+ax = fig.add_subplot(212, projection='3d')
+ax.quiver(*origin, *x0, color='r', label='X0')
+ax.quiver(*origin, *y0, color='g', label='Y0')
+ax.quiver(*origin, *z0, color='b', label='Z0')
+
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1)
+ax.set_zlim(-1, 1)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.legend()
+
+plt.show()
