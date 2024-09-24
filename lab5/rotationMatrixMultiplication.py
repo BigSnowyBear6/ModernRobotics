@@ -27,18 +27,18 @@ eye = np.array([[ 1, 0, 0],
 
 # tool frame w.r.t the base frame
 
-rot_0_5 = np.matmul(np.matmul(np.matmul(np.matmul(eye,rot_z_theta_1),rot_y_theta_2),rot_y_theta_3),rot_y_theta_4)
+rot_0_4 = np.matmul(np.matmul(np.matmul(np.matmul(eye,rot_z_theta_1),rot_y_theta_2),rot_y_theta_3),rot_y_theta_4)
 
 # print the final rotation matrix
-print(rot_0_5)
+print(rot_0_4)
 
 origin = np.zeros(3)
 x0 = np.transpose(np.array([1,0,0]))
 y0 = np.transpose(np.array([0,1,0]))
 z0 = np.transpose(np.array([0,0,1]))
-x_axis = np.matmul(rot_0_5,x0)
-y_axis = np.matmul(rot_0_5,y0)
-z_axis = np.matmul(rot_0_5,z0)
+x_axis = np.matmul(rot_0_4,x0)
+y_axis = np.matmul(rot_0_4,y0)
+z_axis = np.matmul(rot_0_4,z0)
 print(x_axis)
 print(y_axis)
 print(z_axis)
