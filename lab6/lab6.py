@@ -82,7 +82,7 @@ simplified_result = sp.simplify(result)
 # Display the simplified result
 print(simplified_result)
 
-# Question1.step2
+# Question2
 import sympy as sp
 import numpy as np
 from sympy import solve
