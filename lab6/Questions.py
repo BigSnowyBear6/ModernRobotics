@@ -41,7 +41,7 @@ R = np.matmul(np.matmul(np.matmul(np.matmul(np.eye(3), e_z_hat_bracket_theta_1),
 print(R)
 
 # Question: Is this familiar to you?
-Yes
+# Yes
 
 # Question1.step2
 import sympy as sp
