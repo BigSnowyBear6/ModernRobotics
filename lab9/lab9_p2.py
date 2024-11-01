@@ -44,23 +44,23 @@ def FK_PoE(q,a,rot,jt,M):
   p=Tf[0:3,3]
   return R, p
 
+
 t1 = 0
 t2 = 0
 t3 = -np.pi/2
 t4 = np.pi/2
-t5 = 0
 #  Might need the end effector included as prismatic
 
-theta = [t1,t2,t3,t4,t5]
+theta = [t1,t2,t3,t4]
 H1 = 89.45/1000
 H2 = 100/1000
 L1 = 35/1000
 L2 = 100/1000
 L3 = 107.6/1000
 
-a = [[0,0,0],[0,0,H1],[L1,0,H1+H2],[L1+L2,0,H1+H2],[L1+L2+L3,0,H1+H2]]
-rot = [[0,0,1],[0,1,0],[0,1,0],[0,1,0],[0,0,0]]
-jt = 'RRRRP' # Maybe R at end
+a = [[0,0,0],[0,0,H1],[L1,0,H1+H2],[L1+L2,0,H1+H2]]
+rot = [[0,0,1],[0,1,0],[0,1,0],[0,1,0]]
+jt = 'RRRR' # Maybe R at end
 M = [[1,0,0,L1+L2+L3],[0,1,0,0],[0,0,1,H1+H2],[0,0,0,1]]
 
 R,p=FK_PoE(theta,a,rot,jt,M)
