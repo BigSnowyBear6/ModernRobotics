@@ -133,21 +133,13 @@ class FrameListener(Node):
     homogeneous_matrix[2,3] = trans.transform.translation.z
 
     # Compute the time derivative of T using numerical differentiation (explain this in your report)
-    # print(f'homogeneous_matrixis {homogeneous_matrix}')
     homogeneous_matrix_deriv = (homogeneous_matrix-self.homogeneous_matrix_old) / 0.1 # Transformation derivative
     self.homogeneous_matrix_old = homogeneous_matrix # Update your old records
-    # print(homogeneous_matrix[0:3])
     homogeneous_matrix_inv = np.linalg.inv(homogeneous_matrix)
     # Compute the matrix form of the twist (write the math equations that you used to complete this in your report)
-    # print(f'homogeneous_matrix_deriv {homogeneous_matrix_deriv}')
-    # print(f'homogeneous_matrix_inv {homogeneous_matrix_inv}')
-    # print(f'homogeneous_matrix_inv position {np.transpose(homogeneous_matrix[0:3])}')
     vel_brack = homogeneous_matrix_deriv@homogeneous_matrix_inv
-    # print(f'vel_brack is {vel_brack}')
     ang_vel = np.array([vel_brack[2,1], vel_brack[0,2], vel_brack[1,0]])# Angular velocity vector of gripper w.r.t world frame
     trans_vel =  np.array([vel_brack[0,3], vel_brack[1,3], vel_brack[2,3]])# Translational velocity vector of a point on the origin of the {s} frame expressed w.r.t world frame
-    # print(f'ang_vel is {ang_vel}')
-    # print(f'trans_vel is {trans_vel}')
     # Publish the velocity message
     vel_msg = Twist()
 
@@ -204,9 +196,7 @@ class FrameListener(Node):
     
      # Publish the velocity error message
     vel_err_msg = Twist()
-    print('trans_vel[0]', trans_vel[0])
-    print('vel_from_jac[3]', vel_from_jac[3])
-    print('trans_vel[0]-vel_from_jac[3]', float((trans_vel[0] - vel_from_jac[3])[0]))
+  
     vel_err_msg.linear.x = float((trans_vel[0] - vel_from_jac[3])[0])
     vel_err_msg.linear.y = float((trans_vel[1]-vel_from_jac[4])[0])
     vel_err_msg.linear.z = float((trans_vel[2]-vel_from_jac[5])[0])
@@ -235,7 +225,7 @@ class FrameListener(Node):
   def Jacobian(self,q,a,rot,s):
     ad = {1:np.eye((6)), 2:np.eye((6)), 3:np.eye((6))}
     tf = {1:np.eye((4)), 2:np.eye((4)), 3:np.eye((4))}
-    r_cross = {1: [0, 0, 0], 2: [0, 0, 0], 3: [0, 0, 0]}
+    r_cross = {}
     T = np.eye(4,4)
     n = len(q)
     for ii in range(n-1,-1,-1):
