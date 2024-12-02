@@ -1,0 +1,40 @@
+   def geom_IK(self, Td):
+        """
+        Gives joint angles using the geometric method.
+        """ 
+        l1 = .08945
+        l2 = .100
+        lm =  .035
+        l3 = .100
+        l4 = .113575 # might need to change
+        # Get the end-effector coordinates
+        Xt = Td[0,3]; Yt = Td[1,3]; Zt = Td[2,3]
+
+        # Get the end-effector approach vector
+        ax = Td[0,0]; ay = Td[1,0]; az = Td[2,0]
+
+        # Get the wrist vector
+        wx = Xt-(l4*ax)
+        wy = Yt-(l4*ay)
+        wz = Zt-(l4*az)
+        
+        # Calculate some intermediate variables
+        r = np.sqrt(np.square(wx)+np.square(wy))
+        h = wz-l1
+        c = np.sqrt(np.square(r)+np.square(h))
+        beta = np.atan2(lm,l2)
+        sai = np.pi/2 - beta
+        lr = np.sqrt(np.square(lm)+np.square(l2))
+        phi = np.acos((np.square(c)-np.square(l3)-np.square(lr))/(-2*lr*l3))
+        gamma = np.atan2(h,r)
+        alpha = np.acos((np.square(l3)-np.square(lr)-np.square(c))/(-2*lr*c))
+        theta_a = np.atan2(np.sqrt(np.square(Xt)+np.square(Yt)),Zt)#??????????????
+
+        # Get corresponding joint angles using geometry (elbow-up solution)
+        q1 =  np.atan2(Yt,Xt) # Waist angle
+        q2 =  np.pi/2 - (gamma - alpha + beta) # Shoulder angle
+        q3 =  -np.pi + (phi-sai)# Elbow angle
+        q4 =  theta_a - q2 - q3 - np.pi/2# Wrist angle
+
+        # Return angles
+        return [q1, q2, q3, q4]
